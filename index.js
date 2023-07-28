@@ -15,7 +15,9 @@ async function run() {
 
     const prTitle = prPayload.title;
     const prBody = prPayload.body;
-    const isClosingIssue = prPayload.body.match(/closes #\d+/i);
+    const githubKeywordRegex =
+      /\b(?:Close|Closes|Closed|Fix|Fixes|Fixed|Resolve|Resolves|Resolved)\s+#\d+\b/gi;
+    const isClosingIssue = prPayload.body.match(githubKeywordRegex);
 
     if (isClosingIssue) {
       // Regular expression to match Jira task pattern
