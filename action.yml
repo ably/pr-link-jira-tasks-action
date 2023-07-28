@@ -1,18 +1,12 @@
-name: "PR Jira task link"
-description: "Assesses if PRs link to Jira tasks"
+name: "Jira Task Check GitHub Action"
+description: "A GitHub Action that checks if a pull request closing an issue mentions a Jira task."
+branding:
+  icon: "check-circle"
 inputs:
-  owner:
-    description: "The owner of the repository"
+  github-token:
+    description: "GitHub token for authentication and accessing the API."
     required: true
-  repo:
-    description: "The name of the repository"
-    required: true
-  pr_number:
-    description: "The number of the pull request"
-    required: true
-  token:
-    description: "The token to use to access the GitHub API"
-    required: true
+    default: "${{ github.token }}"
 runs:
   using: "node16"
   main: "index.js"
