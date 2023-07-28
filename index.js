@@ -3,9 +3,6 @@ const github = require("@actions/github");
 
 async function run() {
   try {
-    const token = core.getInput("github-token", { required: true });
-    const octokit = github.getOctokit(token);
-
     // Get the pull request information from the event payload
     const prPayload = github.context.payload.pull_request;
 
@@ -29,18 +26,9 @@ async function run() {
 
       if (!jiraTaskInTitleOrBody) {
         // Mark the pipeline as failed
-        await octokit.rest.checks.create({
-          owner: github.context.repo.owner,
-          repo: github.context.repo.repo,
-          name: "Jira Task Check",
-          head_sha: prPayload.head.sha,
-          conclusion: "failure",
-          output: {
-            title: "Jira task is not mentioned",
-            summary:
-              "The pull request needs to mention in the title or body the Jira task that it is linked to.",
-          },
-        });
+        core.setFailed(
+          "The pull request needs to mention in the title or body the Jira task that it is linked to."
+        );
       }
     }
   } catch (error) {
